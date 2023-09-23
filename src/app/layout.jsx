@@ -1,5 +1,6 @@
 import Navbar from '@/components/navbar/Navbar'
 import Footer from '@/components/footer/Footer'
+import Background from '@/components/background/Background'
 import './globals.css'
 import { Roboto_Condensed, Syne, Space_Grotesk } from 'next/font/google'
 
@@ -28,12 +29,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
       // className={syne.className}
+      // className='bg-normal-theme dark:bg-dark-theme bg-[length:100vw_100vh] bg-opacity-50'
+      className='relative'
       >
-        <Navbar className={syne.className} />
+        <Background />
+        <Navbar className={`${syne.className}`} />
 
         {children}
 
-        <Footer className={robotoCondensed.className} />
+        <Footer className={`${robotoCondensed.className}`} />
 
       </body>
     </html>
