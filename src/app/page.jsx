@@ -14,9 +14,9 @@ const syne = Syne({
 export default function Home() {
   return (
     <div className={`${syne.className} flex flex-col justify-center items-center`}>
+
       <span className={`${syne.className} tracking-[-0.1em] text-[128px] leading-none font-bold`}>NBASTATS</span>
       <span className='text-[32px] leading-none'>All your teams, all your matches, all your stats</span>
-
 
       <div className='h-[600px] w-full '>
         <iframe

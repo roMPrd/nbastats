@@ -27,11 +27,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-      // className={syne.className}
-      // className='bg-normal-theme dark:bg-dark-theme bg-[length:100vw_100vh] bg-opacity-50'
-      className='relative'
-      >
+      <body className='relative min-h-[100vh] flex flex-col justify-between'>
+
         <Background />
         <Navbar className={`${syne.className}`} />
 
