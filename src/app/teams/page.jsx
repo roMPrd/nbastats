@@ -1,9 +1,8 @@
+const { default: FetchTeamsApi } = require("@/utils/nbaApi/fetchAxios")
 
 const teams = () => {
   return (
-    <div>
-      <h1>TEAMS</h1>
-    </div>
+    <FetchTeamsApi />
   )
 }
 
