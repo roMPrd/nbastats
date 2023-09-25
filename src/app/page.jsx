@@ -21,7 +21,7 @@ export default function Home() {
       <div className='h-[600px] w-full '>
         <iframe
           src='https://my.spline.design/untitled-329c6a59361a900106d686f6eeda3441/'
-          frameborder='0'
+          frameBorder='0'
           width='100%'
           height='100%'>
         </iframe>

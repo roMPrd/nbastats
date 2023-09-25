@@ -32,8 +32,10 @@ export default function RootLayout({ children }) {
         <Background />
         <Navbar className={`${syne.className}`} />
 
-        {children}
-
+        <div className='flex-grow'>
+          {children}
+        </div>
+        
         <Footer className={`${robotoCondensed.className}`} />
 
       </body>
