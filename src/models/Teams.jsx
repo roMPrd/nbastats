@@ -4,6 +4,11 @@ const { Schema } = mongoose
 
 
 const teamSchema = new Schema({
+  id_api: {
+    type: Number,
+    required: true,
+    unique: true
+  },
   name: {
     type: String,
     required: true,
@@ -42,7 +47,10 @@ const teamSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Player'
   }]
+}, {
+  timestamps: true,
 });
 
 // export default mongoose.model('Team', teamSchema);
 module.exports = mongoose.models.Team || mongoose.model('Team', teamSchema);
+// module.exports = mongoose.models?.Team || mongoose.model('Team', teamSchema);

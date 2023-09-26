@@ -1,6 +1,10 @@
+
 import TeamCard from "@/components/cards/TeamCard";
 import Section from "@/components/shared/section";
 import SectionCard from "@/components/shared/sectionCard";
+
+import { update } from '@/utils/mongodb/RefreshDB'
+
 
 export async function getData() {
   const response = await fetch('http://localhost:3000/api/teams',

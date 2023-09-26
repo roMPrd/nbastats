@@ -3,9 +3,39 @@
 @tailwind utilities;
 
 :root {
-  /* --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255; */
+  --Hawks : #E03A3E;
+  --Celtics : #007A33;
+  --Mavericks : #00538C;
+  --Pacers : #002D62;
+  --TrailBlazers : #E03A3E;
+  --Pelicans : #0C2340;
+  --Nuggets : #0E2240;
+  --Clippers : #C8102E;
+  --Knicks : #006BB6;
+  --Kings : #5A2D81;
+  --Nets : #000000;
+  --Pistons : #C8102E;
+  --Lakers : #552583;
+  --Thunder : #007AC1;
+  --Spurs : #C4CED4;
+  --Hornets : #00788C;
+  --Warriors : #1D428A;
+  --Grizzlies : #5D76A9;
+  --Magic : #0077C0;
+  --Raptors : #CE1141;
+  --Bulls : #CE1141;
+  --Heat : #98002E;
+  --Bucks : #00471B;
+  --76ers : #006BB6;
+  --Jazz : #002B5C;
+  --Cavaliers : #860038;
+  --Rockets : #CE1141;
+  --Timberwolves : #0C2340;
+  --Suns : #1D1160;
+  --Wizards : #002B5C;
+  --Jazz : #002B5C;
+
+
 }
 
 /* @media (prefers-color-scheme: dark) {

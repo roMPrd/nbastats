@@ -28,25 +28,36 @@ export const GET = async () => {
 
 export const POST = async () => {
 
-  const options = {
-    method: 'GET',
-    url: ' https://v2.nba.api-sports.io/teams',
-    headers: {
-      'X-RapidAPI-Key': '8d2123f5eacf9d0834df13022facf84c',
-      'X-RapidAPI-Host': 'v2.nba.api-sports.io'
-    }
-  };
+  // const options = {
+  //   "method": "GET",
+  //   "headers": {
+  //     "x-rapidapi-host": "v2.nba.api-sports.io",
+  //     "x-rapidapi-key": process.env.API_SPORTS_KEY
+  //   }
+  // };
 
   try {
-    const response = await axios.request(options);
+    // const response = await axios.request(options);
+    // const response = await fetch("https://api-nba-v1.p.rapidapi.com/teams", { options })
+    const response = await fetch("https://v2.nba.api-sports.io/teams", {
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-host": "api-nba-v1.p.rapidapi.com",
+        "x-rapidapi-key": process.env.API_SPORTS_KEY
+      }
+    })
+    .then(response => response.json())
+    // const response = await fetch(options);
     // console.log(response.data.response);
-    const updatedData = response.data.response.filter(
+    console.log('response', response.response);
+    const updatedData = response.response.filter(
       data => data.nbaFranchise === true && data.leagues.standard.division != 'East'
     )
     await connectDB();
 
     updatedData.map(async (team, i) => {
       const newTeam = new Team({
+        id_api: team.id,
         name: team.nickname,
         city: team.city,
         code: team.code,
@@ -60,17 +71,56 @@ export const POST = async () => {
     });
 
 
+    return new NextResponse('team has been created', { status: 201 })
+  } catch (error) {
+    console.error(error);
+    return new NextResponse(error.message, { status: 500 })
+  }
+
+}
+
+export const UPDATE = async () => {
+
+  const options = {
+    method: 'GET',
+    url: 'https://v2.nba.api-sports.io/teams',
+    headers: {
+      'X-RapidAPI-Key': process.env.API_SPORTS_KEY,
+      'X-RapidAPI-Host': 'v2.nba.api-sports.io'
+    }
+  };
+
+  try {
+    // const response = await axios.request(options);
+    const response = await fetch(options);
+    // console.log(response.data.response);
+    const updatedData = response.data.response.filter(
+      data => data.nbaFranchise === true && data.leagues.standard.division != 'East'
+    )
+    await connectDB();
+
+    updatedData.map(async (team, i) => {
+
+      await Team.findOneAndUpdate({ id_api: team.id }, {
+        id_api: team.id,
+        name: team.nickname,
+        city: team.city,
+        code: team.code,
+        logo: `/images/logos/${team.nickname}.svg`,
+        division: team.leagues.standard.division,
+        conference: team.leagues.standard.conference,
+      }).save();
+
+      // await Team.save();
+      console.log(`${team.code} saved!`);
+    });
+
+
     return new response('team has been created', { status: 201 })
   } catch (error) {
     console.error(error);
     return new response(error.message, { status: 500 })
   }
-
-}
-
-export const PUT = async () => {
-  // update team data in database
-  // return new NextResponse('team has been updated', { status: 200 })
 }
 
 export const DELETE = async () => {
@@ -81,6 +131,6 @@ export const DELETE = async () => {
     return new NextResponse('team has been deleted', { status: 200 })
   } catch (error) {
     console.error(error);
-    return new response(error.message, { status: 500 })
+    return new NextResponse(error.message, { status: 500 })
   }
 }
