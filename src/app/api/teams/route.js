@@ -12,6 +12,11 @@ export const GET = async () => {
   try {
     await connectDB();
     const teams = await Team.find();
+    if (teams.length === 0) {
+      await POST();
+      console.log('database Teams loaded!');
+      return new NextResponse(JSON.stringify(teams), { status: 200 });
+    }
     console.log('database Teams loaded!');
     return new NextResponse(JSON.stringify(teams), { status: 200 });
     // return NextResponse.json('Database connected!', {status: 200});
@@ -45,7 +50,7 @@ export const POST = async () => {
         name: team.nickname,
         city: team.city,
         code: team.code,
-        logo: team.logo,
+        logo: `/images/logos/${team.nickname}.svg`,
         division: team.leagues.standard.division,
         conference: team.leagues.standard.conference,
       });

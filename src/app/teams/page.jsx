@@ -1,66 +1,121 @@
-'use client'
+import TeamCard from "@/components/cards/TeamCard";
+import Section from "@/components/shared/section";
+import SectionCard from "@/components/shared/sectionCard";
 
-// import FetchTeamsApi from "@/utils/nbaApi/fetchAxios"
-// import connectDB from "@/utils/db"
-async function getData() {
-  const response = await fetch ('http://localhost:3000/api/teams', {
-  cache: 'no-store',
-  });
-
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-
+export async function getData() {
+  const response = await fetch('http://localhost:3000/api/teams',
+    { cache: "no-cache" },
+    //  {method: "GET"}
+  );
   return response.json();
 }
 
-async function postDB() {
-
-  await fetch ('http://localhost:3000/api/teams', {
-    method: 'POST',
-    // headers: {
-    //   'Content-Type': 'application/json'
-    // },
-  });
-}
-async function deleteDB() {
-
-  await fetch ('http://localhost:3000/api/teams', {
-    method: 'DELETE',
-    // headers: {
-    //   'Content-Type': 'application/json'
-    // },
-  });
-}
-
-
-const teams = async () => {
+export default async function TeamGrid() {
   const data = await getData();
+  // console.log(data)
   return (
     <>
-      {/* <FetchTeamsApi /> */}
-      <div>
-        <button onClick={() => deleteDB()}>delete database</button>
-        <button onClick={() => postDB()}>update database</button>
-        {data && data.map((team, i) => (
-          // team.nbaFranchise === true && team.leagues.standard.division != 'East' ? (
-            <div key={i} className='flex justify-center items-center gap-2'>
-              <h1>{i}</h1>
-              {/* <h1>{team.id}</h1> */}
-              <h1>{team._id}</h1>
-              <h1>{team.name}</h1>
-              <p>{team.city}</p>
-              <p>{team.code}</p>
-              <img src={team.logo} alt="" className='h-4' />
-              <p>{team.conference}</p>
-              <p>{team.division}</p>
-            </div>
-          // ) : (null)
-        ))
-        }
-      </div>
-    </>
-  )
-}
+      <Section name='EASTERN CONFERENCE'>
+        <SectionCard name='ATLANTIC'>
+          {data.map((team) => (
+            team.division === 'Atlantic' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+        <SectionCard name='CENTRAL'>
+          {data.map((team) => (
+            team.division === 'Central' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+        <SectionCard name='SOUTHEAST'>
+          {data.map((team) => (
+            team.division === 'Southeast' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+      </Section>
 
-export default teams
+      <Section name='WESTERN CONFERENCE'>
+        <SectionCard name='NORTHWEST'>
+          {data.map((team) => (
+            team.division === 'Northwest' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+        <SectionCard name='PACIFIC'>
+          {data.map((team) => (
+            team.division === 'Pacific' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+        <SectionCard name='SOUTHWEST'>
+          {data.map((team) => (
+            team.division === 'Southwest' ? (
+              <TeamCard
+                key={team._id}
+                id={team._id}
+                logo={team.logo}
+                city={team.city}
+                name={team.name}
+                code={team.code}
+                division={team.division}
+                conference={team.conference}
+              />
+            ) : (null)
+          ))}
+        </SectionCard>
+      </Section>
+    </>
+  );
+}
