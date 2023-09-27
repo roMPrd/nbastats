@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose
 
-
 const teamSchema = new Schema({
   id_api: {
     type: Number,
@@ -35,18 +34,22 @@ const teamSchema = new Schema({
     type: String,
     required: true,
   },
+  seasons: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Seasonteam'
+  }],
   owner: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Owner'
   }],
   coaches: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Coach'
   }],
   players: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Player'
-  }]
+  }],
 }, {
   timestamps: true,
 });

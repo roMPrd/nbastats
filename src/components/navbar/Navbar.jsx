@@ -19,7 +19,7 @@ const robotoCondensed = Roboto_Condensed({
 
 const Navbar = () => {
   const currentPage = usePathname()
-  console.log(currentPage)
+  // console.log(currentPage)
   return (
     <div className={`${robotoCondensed.className} absolute sticky z-50 inset-0 text-xl backdrop-blur-lg shadow-lg px-2 font-bold flex justify-between items-center h-12`}>
 
