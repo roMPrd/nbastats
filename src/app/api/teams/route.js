@@ -22,17 +22,17 @@ export const GET = async () => {
       // return new NextResponse(JSON.stringify(teams), { status: 200 });
     }
 
-    if (teams[0].seasons.length === 0) {
-      try {
-        console.log('entered condition for stats')
-        await fetchTeamStatsFromApi('standings', 'standard', '2022');
-        console.log('database Stats Teams fetched from API!');
-      } catch (error) {
-        console.log('error', error)
-      }
-    }
-
-    updateTeamStats()
+    // if (teams[0].seasons.length === 0) {
+    //   try {
+    //     console.log('entered condition for stats')
+    //     await fetchTeamStatsFromApi('standings', 'standard', '2022');
+    //     console.log('database Stats Teams fetched from API!');
+    //   } catch (error) {
+    //     console.log('error', error)
+    //   }
+    // }
+    // await fetchTeamStatsFromApi('standings', 'standard', '2022');
+    await updateTeamStats()
 
     console.log('database Teams loaded!');
     return new NextResponse(JSON.stringify(teams), { status: 200 });

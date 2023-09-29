@@ -2,12 +2,14 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose
 
-const seasonteamSchema = new Schema({
+const teamstatsSchema = new Schema({
   name: {
     type: Number,
+    index: true,
   },
   teamName: {
     type: String,
+    index: true,
   },
   team: {
     type: mongoose.Schema.Types.ObjectId,
@@ -59,5 +61,7 @@ const seasonteamSchema = new Schema({
   timestamps: true,
 });
 
-module.exports = mongoose.models.Seasonteam || mongoose.model('Seasonteam', seasonteamSchema);
+teamstatsSchema.index({ name: 1, teamName: 1 }, { unique: true, dropDups: true })
+
+module.exports = mongoose.models.Teamstats || mongoose.model('Teamstats', teamstatsSchema);
 // export default mongoose.model('Seasonteam', seasonteamSchema);

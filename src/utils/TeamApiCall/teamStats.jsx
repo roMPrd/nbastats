@@ -1,4 +1,4 @@
-import Seasonteam from '@/models/Seasonteam';
+import Teamstats from '@/models/Teamstats';
 import Team from '@/models/Team';
 import { NextResponse } from 'next/server';
 // import mongoose from 'mongoose';
@@ -21,7 +21,7 @@ export const fetchTeamStatsFromApi = async (req, league, season) => {
 
     response.response.map(async (res, i) => {
 
-      const newSeasonteam = new Seasonteam({
+      const newTeamstats = new Teamstats({
         name: res.season,
         teamName: res.team.name,
         team: await Team.findOne({ id_api: res.team.id }),
@@ -59,12 +59,23 @@ export const fetchTeamStatsFromApi = async (req, league, season) => {
         tieBreakerPoints: res.tieBreakerPoints,
 
       });
-      await newSeasonteam.save();
+      await newTeamstats.save();
       // console.log('newSeasonteam', newSeasonteam);
       console.log(`${res.team.name} season:${res.season} saved!`);
-      console.log(newSeasonteam.team._id)
-      await Team.findByIdAndUpdate( newSeasonteam.team._id, { $push: { 'seasons': newSeasonteam } })
-      await Team.findById(newSeasonteam.team._id).populate('seasons');
+      console.log(newTeamstats.team._id)
+
+      const setter = {$push : {}}
+      // setter.$set[`seasons.${res.season}.TeamStats`] = newTeamstats
+      setter.$push["seasons.2022.TeamStats"] = newTeamstats
+
+      console.log('setter', setter)
+      // console.log('data', data)
+
+      // await Team.findByIdAndUpdate( newTeamstats.team._id, setter)
+      await Team.findByIdAndUpdate( newTeamstats.team._id, { $set: { [`seasons.2022.TeamStats`]: newTeamstats } })
+
+      // await Team.findByIdAndUpdate( newTeamstats.team._id, { $set: { [`seasons.${res.season}.TeamStats`]: newTeamstats } })
+      // await Team.findById(newSeasonteam.team._id).populate('seasons');
 
       // console.log(`${res.team.name._id} season:${res.season} updated!`)
     });
@@ -78,11 +89,26 @@ export const fetchTeamStatsFromApi = async (req, league, season) => {
 }
 
 export const updateTeamStats = async () => {
-  console.log('entered updateTeamStats')
-  const teams = await Team.find();
+  console.log('entered updateTeamstats')
+  const teamstats = await Teamstats.find();
 
-  {teams.map(async (team) => {
-    await team.populate('seasons');
+  {teamstats.map(async (data) => {
+    try {
+      // const setter = {$push : {}}
+      // setter.$push[`seasons.${data.name}.TeamStats`] = data
+
+      // console.log('setter', setter)
+      // console.log('data', data)
+
+      // await Team.findOneAndUpdate({'id_api': data.id_team_api}, setter)
+      await Team.findOneAndUpdate({'id_api': data.id_team_api}, { $set: { "seasons.2022.teamstats": data }})
+
+      console.log(`${data.teamName} season:${data.name} updated!`)
+
+    } catch (error) {
+      console.error(error);
+      // return new NextResponse(error.message, { status: 500 })
+    }
   })}
   // // const season = await Seasonteam.find();
 

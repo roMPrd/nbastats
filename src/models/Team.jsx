@@ -35,20 +35,12 @@ const teamSchema = new Schema({
     required: true,
   },
   seasons: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Seasonteam'
-  }],
-  owner: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Owner'
-  }],
-  coaches: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Coach'
-  }],
-  players: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Player'
+    2022:[{
+      teamstats: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Teamstats',
+      },
+    }]
   }],
 }, {
   timestamps: true,
