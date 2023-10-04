@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type TeamsSeasons {
+  teamstats TeamsSeasonsTeamstats
+}
+
+type TeamsSeasonsTeamstats {
+  v                Int                             @map("__v")
+  id               String                          @map("_id") @db.ObjectId
+  conference       TeamsSeasonsTeamstatsConference
+  createdAt        DateTime                        @db.Date
+  division         TeamsSeasonsTeamstatsDivision
+  gamesBehind      String?
+  id_team_api      Int
+  loss             TeamsSeasonsTeamstatsLoss
+  name             Int
+  streak           Int
+  team             String                          @db.ObjectId
+  teamName         String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  tieBreakerPoints Json?
+  updatedAt        DateTime                        @db.Date
+  win              TeamsSeasonsTeamstatsWin
+  winStreak        Boolean
+}
+
+type TeamsSeasonsTeamstatsConference {
+  loss Int
+  name String
+  rank Int
+  win  Int
+}
+
+type TeamsSeasonsTeamstatsDivision {
+  gamesBehind String?
+  loss        Int
+  name        String
+  rank        Int
+  win         Int
+}
+
+type TeamsSeasonsTeamstatsLoss {
+  away       Int
+  home       Int
+  lastTen    Int
+  percentage String
+  total      Int
+}
+
+type TeamsSeasonsTeamstatsWin {
+  away       Int
+  home       Int
+  lastTen    Int
+  percentage String
+  total      Int
+}
+
+type TeamstatsConference {
+  loss Int
+  name String
+  rank Int
+  win  Int
+}
+
+type TeamstatsDivision {
+  gamesBehind String?
+  loss        Int
+  name        String
+  rank        Int
+  win         Int
+}
+
+type TeamstatsLoss {
+  away       Int
+  home       Int
+  lastTen    Int
+  percentage String
+  total      Int
+}
+
+type TeamstatsWin {
+  away       Int
+  home       Int
+  lastTen    Int
+  percentage String
+  total      Int
+}
+
+model teams {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  v          Int       @map("__v")
+  city       String    @unique(map: "city_1")
+  code       String    @unique(map: "code_1")
+  conference String
+  createdAt  DateTime  @db.Date
+  division   String
+  id_api     Int       @unique(map: "id_api_1")
+  logo       String
+  name       String    @unique(map: "name_1")
+  seasons    Unknown[]
+  updatedAt  DateTime  @db.Date
+}
+
+model teamstats {
+  id               String              @id @default(auto()) @map("_id") @db.ObjectId
+  v                Int                 @map("__v")
+  conference       TeamstatsConference
+  createdAt        DateTime            @db.Date
+  division         TeamstatsDivision
+  gamesBehind      String?
+  id_team_api      Int
+  loss             TeamstatsLoss
+  name             Int
+  streak           Int
+  team             String              @db.ObjectId
+  teamName         String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  tieBreakerPoints Json?
+  updatedAt        DateTime            @db.Date
+  win              TeamstatsWin
+  winStreak        Boolean
+
+  @@unique([name, teamName], map: "name_1_teamName_1")
+  @@index([name], map: "name_1")
+  @@index([teamName], map: "teamName_1")
+}

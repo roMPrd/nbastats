@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Team {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  idApi      Int       @unique
+  name       String    @unique
+  city       String    @unique
+  code       String    @unique
+  logo       String
+  conference String
+  division   String
+  seasons    Seasons[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Seasons {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  Team            Team     @relation(fields: [teamId], references: [id])
+  teamId          String   @db.ObjectId
+  teamIdApi       Int
+  teamName        String
+  year            Int
+  conferenceRank  Int      @default(0)
+  divisionRank    Int      @default(0)
+  // games             Int      @default(0) // To Delete
+  gamesBehind     Int?     @default(0)
+  streak          Int?     @default(0)
+  winStreak       Boolean? @default(false) // true = win, false = loss
+  tieBreakerPoint Int?     @default(0)
+  win             Win
+  loss            Loss
+  players         Player[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique(fields: [teamIdApi, year], name: "unique_team_year")
+}
+
+type Win {
+  home     Int?    @default(0)
+  away     Int?    @default(0)
+  winTotal Int?    @default(0)
+  winPct   String? @default("0")
+  lastTen  Int?    @default(0)
+}
+
+type Loss {
+  home      Int?    @default(0)
+  away      Int?    @default(0)
+  lossTotal Int?    @default(0)
+  lossPct   String? @default("0")
+  lastTen   Int?    @default(0)
+}
+
+model Player {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  idApi     Int      @unique
+  seasonsId String   @db.ObjectId
+  seasons   Seasons  @relation(fields: [seasonsId], references: [id])
+  name      String
+  surname   String
+  position  String?
+  jersey    Int?
+  // height_feet   Int
+  // height_inches Int
+  // weight_pounds Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// model Player {
+//   id            String   @id @default(auto()) @map("_id") @db.ObjectId
+//   id_api        Int      @unique
+//   first_name    String
+//   last_name     String
+//   position      String
+//   height_feet   Int
+//   height_inches Int
+//   weight_pounds Int
+//   team_id       String
+//   team          Team     @relation(fields: [team_id], references: [id])
+//   //seasons Season[]
+//   created_at    DateTime @default(now())
+//   updated_at    DateTime @updatedAt
+// }

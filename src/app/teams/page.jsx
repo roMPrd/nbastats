@@ -21,8 +21,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Atlantic' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}
@@ -37,8 +37,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Central' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}
@@ -53,8 +53,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Southeast' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}
@@ -72,8 +72,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Northwest' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}
@@ -88,8 +88,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Pacific' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}
@@ -104,8 +104,8 @@ export default async function TeamGrid() {
           {data.map((team) => (
             team.division === 'Southwest' ? (
               <TeamCard
-                key={team._id}
-                id={team._id}
+                key={team.id}
+                id={team.id}
                 logo={team.logo}
                 city={team.city}
                 name={team.name}

@@ -1,25 +1,33 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/utils/connectDB';
-import Team from '@/models/Team';
+// import connectDB from '@/utils/connectDB';
+// import Team from '@/models/Team';
 // import Seasonteam from '@/models/Seasonteam';
-import { fetchTeamFromApi } from '@/utils/TeamApiCall/team';
-import { fetchTeamStatsFromApi, updateTeamStats } from '@/utils/TeamApiCall/teamStats';
+import { newFetchTeamFromApi } from '@/utils/TeamApiCall/teamCreateOrUpdate';
+// import { fetchTeamStatsFromApi, updateTeamStats } from '@/utils/TeamApiCall/teamStats';
 
 // import axios from "axios"
 // import { useState } from 'react'
 
+import prisma from '@/utils/prisma';
 
 export const GET = async () => {
   // fetch team data from database
 
   try {
-    await connectDB();
-    const teams = await Team.find();
+    // await connectDB();
+    // const teams = await Team.find();
     // console.log('teams', teams);
+
+    const teams = await prisma.team.findMany();
+    // console.log('teams', teams);
+
     if (teams.length === 0) {
-      await fetchTeamFromApi();
+      console.log('Creating database Teams from API!');
+      await newFetchTeamFromApi();
       console.log('database Teams fetched from API!');
       // return new NextResponse(JSON.stringify(teams), { status: 200 });
+    } else {
+      console.log('database Teams already exist!');
     }
 
     // if (teams[0].seasons.length === 0) {
@@ -32,7 +40,7 @@ export const GET = async () => {
     //   }
     // }
     // await fetchTeamStatsFromApi('standings', 'standard', '2022');
-    await updateTeamStats()
+    // await updateTeamStats()
 
     console.log('database Teams loaded!');
     return new NextResponse(JSON.stringify(teams), { status: 200 });
