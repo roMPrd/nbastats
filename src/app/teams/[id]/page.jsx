@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Roboto_Condensed, Syne, Space_Grotesk } from 'next/font/google'
 import { Suspense } from 'react'
+// import { getServerSideProps } from '@/app/api/teams/[id]/route'
 
 const syne = Syne({
   // weight: ['300', '400', '700'],
@@ -16,10 +17,11 @@ export async function getData(id) {
   // console.log(id)
   const response = await fetch(`http://localhost:3000/api/teams/${id}`,
     { cache: "no-cache" },
-    //  {method: "GET"}
   );
   // console.log(response.json)
   return response.json();
+
+
 }
 
 function rank(number) {
@@ -34,17 +36,15 @@ function rank(number) {
   }
 }
 
+
 export default async function page({ params }) {
+  
+  // console.log('params', params)
   const data = await getData(params.id);
   const color = (data.name).replace(/\s+/g, '');
   const nameUppercase = (data.name).toUpperCase();
-  // await Team.findById(params.id).populate('seasons');
-  // await team.populate('seasons');
-  // const season = data.seasons[0];
-  // console.log('season', season)
-  // console.log('data', data)
-  // console.log('data.seasons', data.seasons)
-  // console.log('data.seasons.name', data.seasons[0].name)
+
+  const selectedSeason = data.seasons.find(season => season.year === 2022)
 
   return (
     <>
@@ -55,7 +55,7 @@ export default async function page({ params }) {
             <Image src={data.logo} width='0' height='0' className='z-20 h-[240px] w-[240px]' alt='logo' />
             <div className='z-20 flex-1 flex flex-col justify-end pb-4'>
               <p className={`${syne.className} text-white`}>{data.conference}ern Conference - {data.division} division</p>
-              {/* <p className={`${robotoCondensed.className} text-white`}>{season?.conference.win} - {season?.conference.loss} | {rank(season?.conference.rank)} in {data.conference}</p> */}
+              <p className={`${robotoCondensed.className} text-white`}>{selectedSeason.win.winTotal} - {selectedSeason.loss.lossTotal} | {rank(selectedSeason.conferenceRank)} in {data.conference}</p>
               <p className={`${robotoCondensed.className} text-[32px] leading-none text-white`}>{data.city}</p>
               <div className='flex gap-4'>
                 <p className={`${robotoCondensed.className} font-bold text-[60px] leading-none text-white`}>{nameUppercase}</p>
@@ -70,19 +70,19 @@ export default async function page({ params }) {
             <div className='flex w-[50%] h-full gap-1'>
               <div className='basis-1/4 flex flex-col justify-center items-center' style={{ background: `var(--${color})` }}>
                 <p className='text-[16px]'>#rank</p>
-                {/* <p className='text-[32px] font-bold'>{season?.conference.rank}</p> */}
+                <p className='text-[32px] font-bold'>{selectedSeason.conferenceRank}</p>
               </div>
               <div className='basis-1/4 flex flex-col justify-center items-center' style={{ background: `var(--${color})` }}>
                 <p className='text-[16px]'>win</p>
-                {/* <p className='text-[32px] font-bold'>{season?.conference.win}</p> */}
+                <p className='text-[32px] font-bold'>{selectedSeason.win.winTotal}</p>
               </div>
               <div className='basis-1/4 flex flex-col justify-center items-center' style={{ background: `var(--${color})` }}>
                 <p className='text-[16px]'>loss</p>
-                {/* <p className='text-[32px] font-bold'>{season?.conference.loss}</p> */}
+                <p className='text-[32px] font-bold'>{selectedSeason.loss.lossTotal}</p>
               </div>
               <div className='basis-1/4 flex flex-col justify-center items-center' style={{ background: `var(--${color})` }}>
                 <p className='text-[16px]'>win %</p>
-                {/* <p className='text-[32px] font-bold'>{season?.conference.loss}</p> */}
+                <p className='text-[32px] font-bold'>{selectedSeason.win.winPct}</p>
               </div>
             </div>
             {/* <p>{data.seasons[0].name}</p> */}

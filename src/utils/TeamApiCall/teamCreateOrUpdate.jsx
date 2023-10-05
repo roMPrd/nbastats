@@ -33,6 +33,7 @@ export const newFetchTeamFromApi = async () => {
           logo: `/images/logos/${team.nickname}.svg`,
           division: team.leagues.standard.division,
           conference: team.leagues.standard.conference,
+          seasons: {},
         },
       });
       console.log(`${team.code} saved!`);
